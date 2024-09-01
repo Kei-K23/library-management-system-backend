@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Secret key
-var key = Encoding.ASCII.GetBytes("MySuperStrongSecretKey123456789");
+var jwtKey = configuration.GetSection("Jwt:Key").Get<string>();
+var key = Encoding.ASCII.GetBytes(jwtKey);
 
 
 // Configure JWT authentication
