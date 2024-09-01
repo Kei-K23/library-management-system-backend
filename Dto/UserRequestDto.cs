@@ -1,13 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using LibraryManagementSystemBackend.Enum;
 
-namespace LibraryManagementSystemBackend.Models
+namespace LibraryManagementSystemBackend.Dto
 {
-    public class User
+    public class UserRequestDto
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [StringLength(100, MinimumLength = 3)]
         [Required]
         public required string UserName { get; set; }
@@ -24,6 +21,5 @@ namespace LibraryManagementSystemBackend.Models
         public string? ProfilePicture { get; set; }
         [Required]
         public UserRole UserRole { get; set; }
-        public DateTime DateJoined { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace LibraryManagementSystemBackend.Repository
             _dbSet = _context.Set<T>();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            return await _dbSet.AddAsync(entity);
         }
 
         public void Delete(T entity)
