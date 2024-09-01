@@ -55,14 +55,14 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, UserRequestDto userRequestDto)
+        public async Task<IActionResult> UpdateUser(Guid id, UserUpdateRequestDto userUpdateRequestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = _mapper.Map<User>(userRequestDto);
+            var user = _mapper.Map<User>(userUpdateRequestDto);
             var updatedUser = await _userService.UpdateAsync(id, user);
             var userRes = _mapper.Map<UserResponseDto>(updatedUser);
             return Ok(userRes);

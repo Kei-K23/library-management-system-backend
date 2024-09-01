@@ -1,12 +1,41 @@
 // Entry point of the whole application
+using System.Text;
 using LibraryManagementSystemBackend.ApplicationDBContext;
 using LibraryManagementSystemBackend.Interfaces;
 using LibraryManagementSystemBackend.Models;
 using LibraryManagementSystemBackend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+// Secret key
+var key = Encoding.ASCII.GetBytes("MySuperStrongSecretKey123456789");
+
+
+// Configure JWT authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+// Add authorization
+builder.Services.AddAuthorizationBuilder()
+                        // Add authorization
+                        .AddPolicy("AdminOnly", policy => policy.RequireRole("ADMIN"));
 
 // Add services to the application
 // DB setup
