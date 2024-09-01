@@ -9,6 +9,6 @@ namespace LibraryManagementSystemBackend.ApplicationDBContext
         {
         }
 
-        public DbSet<User> Users { get; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 // Entry point of the whole application
 using LibraryManagementSystemBackend.ApplicationDBContext;
 using LibraryManagementSystemBackend.Interfaces;
-using LibraryManagementSystemBackend.Repository;
+using LibraryManagementSystemBackend.Models;
+using LibraryManagementSystemBackend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,12 +16,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 builder.Services.AddProblemDetails();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(RepositoryImpl<>));
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IUserService<User>, UserService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add Dependency Injection services
-
-
 var app = builder.Build();
 
 
