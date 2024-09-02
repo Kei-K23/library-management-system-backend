@@ -5,6 +5,7 @@ using LibraryManagementSystemBackend.Dto;
 using LibraryManagementSystemBackend.Enum;
 using LibraryManagementSystemBackend.Interfaces;
 using LibraryManagementSystemBackend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,6 +25,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequestDto loginRequestDto)
         {
             // Check request body if valid

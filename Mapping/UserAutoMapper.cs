@@ -10,6 +10,7 @@ namespace SocialMediaAPI.Mapping
         {
             CreateMap<User, UserResponseDto>();
             CreateMap<UserRequestDto, User>();
+            CreateMap<UserUpdateRequestDto, User>();
         }
     }
 }

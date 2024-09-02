@@ -3,6 +3,7 @@ using LibraryManagementSystemBackend.Interfaces;
 using LibraryManagementSystemBackend.Models;
 using LibraryManagementSystemBackend.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagementSystemBackend.Controllers
 {
@@ -20,6 +21,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllAsync();
@@ -28,6 +30,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -41,6 +44,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> AddUser(UserRequestDto userRequestDto)
         {
             if (!ModelState.IsValid)
@@ -55,6 +59,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> UpdateUser(Guid id, UserUpdateRequestDto userUpdateRequestDto)
         {
             if (!ModelState.IsValid)
@@ -69,6 +74,7 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             await _userService.DeleteAsync(id);
