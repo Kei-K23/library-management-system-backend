@@ -1,4 +1,3 @@
-using AutoMapper;
 using LibraryManagementSystemBackend.ApplicationDBContext;
 using LibraryManagementSystemBackend.Interfaces;
 using LibraryManagementSystemBackend.Models;

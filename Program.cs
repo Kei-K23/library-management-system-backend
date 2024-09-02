@@ -46,6 +46,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddLogging();
 builder.Services.AddProblemDetails();
 builder.Services.AddScoped<IUserService<User>, UserService>();
+builder.Services.AddScoped<IBookService<Book>, BookService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add Swagger configuration

@@ -25,7 +25,7 @@ namespace LibraryManagementSystemBackend.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllAsync();
-            var usersResponse = users.Select(user => _mapper.Map<UserResponseDto>(user));
+            var usersResponse = users.Select(_mapper.Map<UserResponseDto>);
             return Ok(usersResponse);
         }
 
