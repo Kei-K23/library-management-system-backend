@@ -76,8 +76,22 @@ namespace LibraryManagementSystemBackend.Services
                 throw new KeyNotFoundException($"Book with id {id} not found.");
             }
 
+            // Validate the new CategoryId if it's provided
+            if (request.CategoryId != Guid.Empty && request.CategoryId != book.CategoryId)
+            {
+                var categoryExists = await _context.Categories.AnyAsync(c => c.Id == request.CategoryId);
+                if (!categoryExists)
+                {
+                    throw new KeyNotFoundException($"Category with id {request.CategoryId} not found.");
+                }
+
+                // Update the CategoryId
+                book.CategoryId = request.CategoryId;
+            }
+
             try
             {
+                // Update only the properties that are provided
                 if (!string.IsNullOrEmpty(request.Title))
                 {
                     book.Title = request.Title;
@@ -98,10 +112,20 @@ namespace LibraryManagementSystemBackend.Services
                 {
                     book.Description = request.Description;
                 }
-                book.CopiesAvailable = request.CopiesAvailable;
-                book.PublishedDate = request.PublishedDate;
-                book.TotalCopies = request.TotalCopies;
-                book.CategoryId = request.CategoryId;
+                if (request.CopiesAvailable.HasValue)
+                {
+                    book.CopiesAvailable = request.CopiesAvailable.Value;
+                }
+                if (request.PublishedDate != default(DateTime) && !book.PublishedDate.Equals(request.PublishedDate))
+                {
+                    book.PublishedDate = request.PublishedDate;
+                }
+                if (request.TotalCopies.HasValue && book.TotalCopies != request.TotalCopies.Value)
+                {
+                    book.TotalCopies = request.TotalCopies.Value;
+                }
+
+                // Update timestamps
                 book.UpdatedAt = DateTime.Now;
 
                 await _context.SaveChangesAsync();

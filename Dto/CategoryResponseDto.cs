@@ -1,3 +1,5 @@
+using LibraryManagementSystemBackend.Models;
+
 namespace LibraryManagementSystemBackend.Dto
 {
     public class CategoryResponseDto

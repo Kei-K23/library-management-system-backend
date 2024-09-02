@@ -23,7 +23,7 @@ namespace LibraryManagementSystemBackend.Dto
 
         [StringLength(255, MinimumLength = 3)]
         [Required]
-        public required DateTime PublishedDate { get; set; }
+        public required string PublishedDate { get; set; }
 
         public string? Description { get; set; }
         public bool? CopiesAvailable { get; set; }
