@@ -14,6 +14,9 @@ namespace LibraryManagementSystemBackend.Mapping
             CreateMap<Book, BookResponseDto>();
             CreateMap<BookRequestDto, Book>();
             CreateMap<BookUpdateRequestDto, Book>();
+            CreateMap<Category, CategoryResponseDto>();
+            CreateMap<CategoryRequestDto, Category>();
+            CreateMap<CategoryUpdateRequestDto, Category>();
         }
     }
 }

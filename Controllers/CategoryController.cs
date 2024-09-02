@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Authorization;
 namespace LibraryManagementSystemBackend.Controllers
 {
     [ApiController]
-    [Route("api/v1/books")]
+    [Route("api/v1/categories")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService<Category> _categoryService;
         private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryService<Category> bookService, IMapper mapper)
+        public CategoryController(ICategoryService<Category> categoryService, IMapper mapper)
         {
-            _categoryService = bookService;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
 
@@ -24,53 +24,53 @@ namespace LibraryManagementSystemBackend.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetAllCategories()
         {
-            var books = await _categoryService.GetAllAsync();
-            var booksResponse = books.Select(_mapper.Map<CategoryResponseDto>);
-            return Ok(booksResponse);
+            var categories = await _categoryService.GetAllAsync();
+            var categoriesResponse = categories.Select(_mapper.Map<CategoryResponseDto>);
+            return Ok(categoriesResponse);
         }
 
         [HttpGet("{id}")]
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetCategoryById(Guid id)
         {
-            var book = await _categoryService.GetByIdAsync(id);
-            if (book == null)
+            var category = await _categoryService.GetByIdAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            var bookResponse = _mapper.Map<CategoryResponseDto>(book);
-            return Ok(bookResponse);
+            var categoryResponse = _mapper.Map<CategoryResponseDto>(category);
+            return Ok(categoryResponse);
         }
 
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> AddCategory(CategoryRequestDto bookRequestDto)
+        public async Task<IActionResult> AddCategory(CategoryRequestDto categoryRequestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var book = _mapper.Map<Category>(bookRequestDto);
-            var createdCategory = await _categoryService.AddAsync(book);
-            var bookRes = _mapper.Map<CategoryResponseDto>(createdCategory);
-            return Ok(bookRes);
+            var category = _mapper.Map<Category>(categoryRequestDto);
+            var createdCategory = await _categoryService.AddAsync(category);
+            var categoryRes = _mapper.Map<CategoryResponseDto>(createdCategory);
+            return Ok(categoryRes);
         }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> UpdateCategory(Guid id, CategoryUpdateRequestDto bookUpdateRequestDto)
+        public async Task<IActionResult> UpdateCategory(Guid id, CategoryUpdateRequestDto categoryUpdateRequestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var book = _mapper.Map<Category>(bookUpdateRequestDto);
-            var updatedCategory = await _categoryService.UpdateAsync(id, book);
-            var bookRes = _mapper.Map<CategoryResponseDto>(updatedCategory);
-            return Ok(bookRes);
+            var category = _mapper.Map<Category>(categoryUpdateRequestDto);
+            var updatedCategory = await _categoryService.UpdateAsync(id, category);
+            var categoryRes = _mapper.Map<CategoryResponseDto>(updatedCategory);
+            return Ok(categoryRes);
         }
 
         [HttpDelete("{id}")]
