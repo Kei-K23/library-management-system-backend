@@ -8,9 +8,9 @@ namespace LibraryManagementSystemBackend.Services
     public class BookService : IBookService<Book>
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<UserService> _logger;
+        private readonly ILogger<BookService> _logger;
 
-        public BookService(AppDbContext context, ILogger<UserService> logger)
+        public BookService(AppDbContext context, ILogger<BookService> logger)
         {
             _context = context;
             _logger = logger;
