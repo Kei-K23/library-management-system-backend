@@ -78,7 +78,6 @@ namespace LibraryManagementSystemBackend.Services
             {
                 throw new KeyNotFoundException($"User with id {id} not found.");
             }
-
             try
             {
                 if (!string.IsNullOrEmpty(request.UserName))
@@ -97,7 +96,18 @@ namespace LibraryManagementSystemBackend.Services
                 {
                     user.ProfilePicture = request.ProfilePicture;
                 }
-                user.UserRole = request.UserRole;
+                if (!string.IsNullOrEmpty(request.UserRole.ToString()))
+                {
+                    user.UserRole = request.UserRole;
+                }
+                if (request.IsBanned.HasValue)
+                {
+                    user.IsBanned = request.IsBanned.Value;
+                }
+                if (request.IsLocked.HasValue)
+                {
+                    user.IsLocked = request.IsLocked.Value;
+                }
 
                 await _context.SaveChangesAsync();
 

@@ -16,7 +16,8 @@ namespace LibraryManagementSystemBackend.Dto
         public string? Password { get; set; }
 
         public string? ProfilePicture { get; set; }
-        [Required]
         public UserRole? UserRole { get; set; }
+        public bool? IsBanned { get; set; }
+        public bool? IsLocked { get; set; }
     }
 }
