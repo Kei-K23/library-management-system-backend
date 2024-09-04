@@ -4,6 +4,8 @@ using LibraryManagementSystemBackend.Models;
 using LibraryManagementSystemBackend.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace LibraryManagementSystemBackend.Controllers
 {
@@ -27,6 +29,40 @@ namespace LibraryManagementSystemBackend.Controllers
             var users = await _userService.GetAllAsync();
             var usersResponse = users.Select(_mapper.Map<UserResponseDto>);
             return Ok(usersResponse);
+        }
+
+        [HttpGet("me")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            // Extract the JWT token from the Authorization header
+            var authHeader = Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return Unauthorized();
+            }
+
+            var token = authHeader["Bearer ".Length..].Trim();
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            // Assuming the userId is stored in the token's claims
+            var userIdClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "userId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var userId = Guid.Parse(userIdClaim.Value);
+            var user = await _userService.GetByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userResponse = _mapper.Map<UserResponseDto>(user);
+            return Ok(userResponse);
         }
 
         [HttpGet("{id}")]
