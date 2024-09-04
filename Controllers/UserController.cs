@@ -32,17 +32,28 @@ namespace LibraryManagementSystemBackend.Controllers
         }
 
         [HttpGet("me")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCurrentUser()
         {
-            // Extract the JWT token from the Authorization header
+            string token = null;
+
+            // Step 1: Check for the token in the Authorization header
             var authHeader = Request.Headers["Authorization"].ToString();
-            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
+            {
+                token = authHeader["Bearer ".Length..].Trim();
+            }
+            // Step 2: If no token is found in the Authorization header, check the authToken cookie
+            if (string.IsNullOrEmpty(token))
+            {
+                token = Request.Cookies["authToken"];
+            }
+
+            // Step 3: If no token is found in both the Authorization header and the cookie, return Unauthorized
+            if (string.IsNullOrEmpty(token))
             {
                 return Unauthorized();
             }
 
-            var token = authHeader["Bearer ".Length..].Trim();
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
 
