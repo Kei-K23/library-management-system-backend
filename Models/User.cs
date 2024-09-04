@@ -22,8 +22,8 @@ namespace LibraryManagementSystemBackend.Models
         public required string Password { get; set; }
 
         public string? ProfilePicture { get; set; }
-        public bool? IsBanned { get; set; }
-        public bool? IsLocked { get; set; }
+        public bool? IsBanned { get; set; } = false;
+        public bool? IsLocked { get; set; } = false;
         [Required]
         public UserRole UserRole { get; set; }
         public DateTime DateJoined { get; set; }
