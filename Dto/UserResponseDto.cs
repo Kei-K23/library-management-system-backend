@@ -13,5 +13,8 @@ namespace LibraryManagementSystemBackend.Dto
         public DateTime DateJoined { get; set; }
         public bool isBanned { get; set; } = false;
         public bool isLocked { get; set; } = false;
+
+        public DateTime? CratedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     }
 }
