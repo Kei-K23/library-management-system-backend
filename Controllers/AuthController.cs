@@ -41,6 +41,18 @@ namespace LibraryManagementSystemBackend.Controllers
                 return Unauthorized();
             }
 
+            if ((bool)user.IsBanned)
+            {
+                // Add custom error message for more detail
+                return Unauthorized();
+            }
+
+            if ((bool)user.IsLocked)
+            {
+                return Unauthorized();
+
+            }
+
             var token = GenerateJwtToken(user.Email, user.Id, user.UserRole);
             return Ok(new { token });
         }

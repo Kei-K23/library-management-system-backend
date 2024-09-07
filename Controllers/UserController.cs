@@ -4,7 +4,6 @@ using LibraryManagementSystemBackend.Models;
 using LibraryManagementSystemBackend.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace LibraryManagementSystemBackend.Controllers
